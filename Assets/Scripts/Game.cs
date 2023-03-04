@@ -219,7 +219,7 @@ public class Game : MonoBehaviour
                 || (Input.mouseScrollDelta.y < 0 && field.transform.localScale.x > 1f && field.transform.localScale.y > 1f))
             {
                 Vector3 cellPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                field.transform.localScale = new Vector3(field.transform.localScale.x + Input.mouseScrollDelta.y * scrollSpeed, field.transform.localScale.x + Input.mouseScrollDelta.y * scrollSpeed, 0f);
+                field.transform.localScale = new Vector3(field.transform.localScale.x + Input.mouseScrollDelta.y * scrollSpeed, field.transform.localScale.y + Input.mouseScrollDelta.y * scrollSpeed, 0f);
                 field.transform.position = new Vector3(field.transform.position.x - Input.mouseScrollDelta.y * (width / 2 * scrollSpeed), field.transform.position.y - Input.mouseScrollDelta.y * (height / 2 * scrollSpeed), 0f);
 
                 FieldInBorder();
@@ -717,24 +717,29 @@ public class Game : MonoBehaviour
     //Return field in the border
     private void FieldInBorder()
     {
-        if (field.transform.position.x >= 0) 
+        if (field.transform.position.x > 0) 
         {
             field.transform.position = new Vector3(0f, field.transform.position.y, 0f);
             border.FieldBorderMarkLeft(height, false);
         }
-        else border.FieldBorderMarkLeft(height, true);
-        if (field.transform.position.y >= 0)
+        else
+            if (field.transform.position.x != 0) border.FieldBorderMarkLeft(height, true);
+
+        if (field.transform.position.y > 0)
         {
             field.transform.position = new Vector3(field.transform.position.x, 0f, 0f);
             border.FieldBorderMarkDown(width, false);
         }
-        else border.FieldBorderMarkDown(width, true);
+        else 
+            if (field.transform.position.y != 0) border.FieldBorderMarkDown(width, true);
+
         if (field.transform.position.x <= -width * (field.transform.localScale.x - 1)) 
         {
             field.transform.position = new Vector3(-width * (field.transform.localScale.x - 1), field.transform.position.y, 0f);
             border.FieldBorderMarkRight(width, height, false);
         }
         else border.FieldBorderMarkRight(width, height, true);
+
         if (field.transform.position.y <= -height * (field.transform.localScale.y - 1)) 
         {
             field.transform.position = new Vector3(field.transform.position.x, -height * (field.transform.localScale.y - 1), 0f);
