@@ -16,9 +16,11 @@ public class Game : MonoBehaviour
     private Field field;
     private Hud hud;
     private Border border;
+    private BackgroundField backgroundField;
     private Cell[,] state;
     private bool gameover;
     [SerializeField] private GameObject maskField;
+    //[SerializeField] private Square fieldBackground;
 
     private float lastClickTime;       //first click time for mouse doubleclick method LeftDoubleClickMouseDetection()
     private int secondCounter;         //The counter of seconds from real time for method IncreaseTimer()
@@ -44,6 +46,7 @@ public class Game : MonoBehaviour
         field = GetComponentInChildren<Field>();
         hud = GetComponentInChildren<Hud>();
         border = GetComponentInChildren<Border>();
+        backgroundField = GetComponentInChildren<BackgroundField>();
 
         maskField = Instantiate(maskField);
     }
@@ -71,6 +74,9 @@ public class Game : MonoBehaviour
         GenerateNumbers();
 
         Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -11f);
+        Vector3Int backgroundFieldPosition = backgroundField.BackgroundFieldMap.WorldToCell(Camera.main.transform.position);
+        backgroundField.DrawBackgroundField(backgroundFieldPosition);
+
         //Screen.SetResolution((width + 2) * 32 - 16, (height + 6) * 32, false);
         //Camera.main.orthographicSize = (height + 6) / 2f;
 
