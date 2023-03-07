@@ -53,10 +53,10 @@ public class Game : MonoBehaviour
 
     //private void Start()
     //{
-    //    NewGame();
+
     //}
 
-    public void NewGame()
+        public void NewGame()
     {
         field.FieldMap.ClearAllTiles();
         hud.HudMap.ClearAllTiles();
@@ -76,9 +76,6 @@ public class Game : MonoBehaviour
         Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -11f);
         Vector3Int backgroundFieldPosition = backgroundField.BackgroundFieldMap.WorldToCell(Camera.main.transform.position);
         backgroundField.DrawBackgroundField(backgroundFieldPosition);
-
-        //Screen.SetResolution((width + 2) * 32 - 16, (height + 6) * 32, false);
-        //Camera.main.orthographicSize = (height + 6) / 2f;
 
         border.DrawBorder(width, height);
         hud.Clock(width, height, mineCount, timer);
@@ -196,8 +193,6 @@ public class Game : MonoBehaviour
             width = 8;
             height = 8;
             mineCount = 10;
-            //Screen.SetResolution((width + 2) * 32 - 16, (height + 6) * 32, false);
-            //Camera.main.orthographicSize = (height + 6) / 2f;
             NewGame();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
@@ -205,8 +200,6 @@ public class Game : MonoBehaviour
             width = 16;
             height = 16;
             mineCount = 40;
-            //Screen.SetResolution((width + 2) * 32 - 16, (height + 6) * 32, false);
-            //Camera.main.orthographicSize = (height + 6) / 2f;
             NewGame();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
@@ -214,8 +207,6 @@ public class Game : MonoBehaviour
             width = 30;
             height = 16;
             mineCount = 99;
-            //Screen.SetResolution((width + 2) * 32 - 16, (height + 6) * 32, false);
-            //Camera.main.orthographicSize = (height + 6) / 2f;
             NewGame();
         }
         //Field scaling
