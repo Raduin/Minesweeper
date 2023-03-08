@@ -20,7 +20,6 @@ public class Game : MonoBehaviour
     private Cell[,] state;
     private bool gameover;
     [SerializeField] private GameObject maskField;
-    //[SerializeField] private Square fieldBackground;
 
     private float lastClickTime;       //first click time for mouse doubleclick method LeftDoubleClickMouseDetection()
     private int secondCounter;         //The counter of seconds from real time for method IncreaseTimer()

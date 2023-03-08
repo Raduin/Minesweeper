@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
@@ -40,7 +38,7 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    private void Flags()
+    public void Flags()
     {
         game.enabled = true;
         mouse.enabled = true;
