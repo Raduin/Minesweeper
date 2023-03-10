@@ -45,6 +45,9 @@ public class Border : MonoBehaviour
 
     public void DrawBorder(int width, int height)
     {
+        if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
+        if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
+        
         BorderMap.SetTile(new Vector3Int(-1, -3, 0), tileCornerLeftDown);
         BorderMap.SetTile(new Vector3Int(-1, -2, 0), tileBorderLeft);
         BorderMap.SetTile(new Vector3Int(-1, -1, 0), tileIntersectionLeftDown);
@@ -95,6 +98,7 @@ public class Border : MonoBehaviour
     }
     public void FieldBorderMarkLeft(int height, bool marked)
     {
+        if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
         if (marked)
             for (int i = 0; i < height; i++) BorderMap.SetTile(new Vector3Int(-1, i, 0), tileFieldBorderLeftMark);
         else
@@ -102,6 +106,8 @@ public class Border : MonoBehaviour
     }
     public void FieldBorderMarkRight(int width, int height, bool marked)
     {
+        if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
+        if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
         if (marked)
             for (int i = 0; i < height; i++) BorderMap.SetTile(new Vector3Int(width, i, 0), tileFieldBorderRightMark);
         else 
@@ -109,6 +115,7 @@ public class Border : MonoBehaviour
     }
     public void FieldBorderMarkDown(int width, bool marked)
     {
+        if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
         if (marked)
             for (int i = 0; i < width; i++) BorderMap.SetTile(new Vector3Int(i, -1, 0), tileBorderUpMark);
         else
@@ -116,6 +123,8 @@ public class Border : MonoBehaviour
     }
     public void FieldBorderMarkUp(int width, int height, bool marked)
     {
+        if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
+        if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
         if (marked)
         { 
             BorderMap.SetTile(new Vector3Int(0, height, 0), tileClockCornerLeftDownMark);

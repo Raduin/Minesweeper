@@ -74,7 +74,7 @@ public class Field : MonoBehaviour
     {
         switch (cell.type)
         {
-            case Cell.Type.Empty: return cell.mineWrong? tileMineWrong : tileEmpty;
+            case Cell.Type.Empty: return cell.mineWrong ? tileMineWrong : tileEmpty;
             case Cell.Type.Mine:  return cell.exploded ? tileExploded : tileMine;
             case Cell.Type.Number: return cell.mineWrong ? tileMineWrong : GetNumberTile(cell);
             default: return null;

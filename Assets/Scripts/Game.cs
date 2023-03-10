@@ -1,9 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ButtonImage { Joy, Sad, Wonder, Win, JoyPressed, Menu, MenuPressed, }
 
 public class Game : MonoBehaviour
 {
+    public const int maxWidthBorder = 30;
+    public const int maxHeightBorder = 16;
+    
     public int width = 16;
     public int height = 16;
     public int mineCount = 32;
@@ -33,7 +37,7 @@ public class Game : MonoBehaviour
     private bool currentCellMmb;       //Flag for matching with first clicked cell before releasing with Middle mouse button
     private bool mouseButtonsPressed;  //Flag for pressing both mouse buttons together
     private Vector3 deltafieldMoving;  //Start delta coordinates for field moving speed
-    private bool fieldMoving;          //Flag to star field moving
+    private bool fieldMoving;          //Flag to start field moving
 
     private void OnValidate()
     {
@@ -72,7 +76,8 @@ public class Game : MonoBehaviour
         GenerateMines();
         GenerateNumbers();
 
-        Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -11f);
+        SetMainCamera(width, height);
+
         Vector3Int backgroundFieldPosition = backgroundField.BackgroundFieldMap.WorldToCell(Camera.main.transform.position);
         backgroundField.DrawBackgroundField(backgroundFieldPosition);
 
@@ -83,8 +88,10 @@ public class Game : MonoBehaviour
 
         field.transform.position = transform.position;
         field.transform.localScale = transform.localScale;
-        maskField.transform.position = new Vector3(width / 2f, height / 2f, 0f);
-        maskField.transform.localScale = new Vector3(width, height, 0f);
+        FieldInBorder(width, height);
+
+        SetMaskField(width, height);
+
         field.Draw(state);
     }
 
@@ -172,8 +179,8 @@ public class Game : MonoBehaviour
         {
             field.transform.Translate(deltafieldMoving * 5);
             deltafieldMoving = new Vector3(deltafieldMoving.x / 1.1f, deltafieldMoving.y / 1.1f, 0f);
-            FieldInBorder();
             if (System.Math.Abs(deltafieldMoving.x) < 0.001 && System.Math.Abs(deltafieldMoving.y) < 0.001) fieldMoving = false;
+            FieldInBorder(width, height);
         }
     }
 
@@ -218,13 +225,8 @@ public class Game : MonoBehaviour
                 field.transform.localScale = new Vector3(field.transform.localScale.x + Input.mouseScrollDelta.y * scrollSpeed, field.transform.localScale.y + Input.mouseScrollDelta.y * scrollSpeed, 0f);
                 field.transform.position = new Vector3(field.transform.position.x - Input.mouseScrollDelta.y * (width / 2 * scrollSpeed), field.transform.position.y - Input.mouseScrollDelta.y * (height / 2 * scrollSpeed), 0f);
 
-                FieldInBorder();
+                FieldInBorder(width, height);
             }
-        }
-        if (field.transform.localScale.x == 1 && field.transform.localScale.y == 1)
-        {
-            field.transform.position = transform.position;
-            border.DrawBorder(width, height);
         }
 
         //Field moving
@@ -239,11 +241,8 @@ public class Game : MonoBehaviour
             }
             if (cellPosition != firstCellMmb)
             {
-                if (field.transform.localScale.x > 1 && field.transform.localScale.y > 1)
-                    field.transform.position = new Vector3((field.transform.position.x + cellPosition.x - firstCellMmb.x), (field.transform.position.y + cellPosition.y - firstCellMmb.y), 0f);
-
-                FieldInBorder();
-
+                field.transform.position = new Vector3((field.transform.position.x + cellPosition.x - firstCellMmb.x), (field.transform.position.y + cellPosition.y - firstCellMmb.y), 0f);
+                FieldInBorder(width, height);
                 deltafieldMoving = new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0f);
 
                 firstCellMmb = cellPosition;
@@ -285,7 +284,7 @@ public class Game : MonoBehaviour
                     if (cellPosition.x >= 0 && cellPosition.x < width && cellPosition.y >= 0 && cellPosition.y < height)
                         if (!state[cellPosition.x, cellPosition.y].revealed && !state[cellPosition.x, cellPosition.y].flagged)
                         {
-                            hud.DrawButtonUp(width, height, ButtonImage.Wonder);
+                            if (!MouseOutField(width, height)) hud.DrawButtonUp(width, height, ButtonImage.Wonder);
                             if (state[cellPosition.x, cellPosition.y].questionMark) field.DrawOneCellQuestionMarkDown(cellPosition);
                             else field.DrawOneCellEmpty(cellPosition);
                         }
@@ -306,7 +305,6 @@ public class Game : MonoBehaviour
                         if (state[firstCellLmb.x, firstCellLmb.y].questionMark) field.DrawOneCellQuestionMark(firstCellLmb);
                         else field.DrawOneCellUnknown(firstCellLmb);
                     }
-                    hud.DrawButtonUp(width, height, ButtonImage.Joy);
                 }
 
                 hud.DrawButtonUp(width, height, ButtonImage.Joy);
@@ -406,7 +404,7 @@ public class Game : MonoBehaviour
                             }
                             if (!state[x, y].revealed && !state[x, y].flagged)
                              {
-                                hud.DrawButtonUp(width, height, ButtonImage.Wonder);
+                                if (!MouseOutField(width, height)) hud.DrawButtonUp(width, height, ButtonImage.Wonder);
                                 if (state[x, y].questionMark) field.DrawOneCellQuestionMarkDown(new Vector3Int(x, y, 0));
                                 else field.DrawOneCellEmpty(new Vector3Int(x, y, 0));
                             }
@@ -420,7 +418,7 @@ public class Game : MonoBehaviour
 
     private void Flag()
     {
-        if (MouseOutField()) return;
+        if (MouseOutField(width, height)) return;
         Vector3Int cellPosition = MousePositionCurrent();
 
         if (cellPosition.x < 0 || cellPosition.x >= width || cellPosition.y < 0 || cellPosition.y >= height) {
@@ -460,7 +458,7 @@ public class Game : MonoBehaviour
 
     private void Reveal()
     {
-        if (MouseOutField()) return;
+        if (MouseOutField(width, height)) return;
         Vector3Int cellPosition = MousePositionCurrent();
 
         if (cellPosition.x < 0 || cellPosition.x >= width || cellPosition.y < 0 || cellPosition.y >= height) {
@@ -498,7 +496,7 @@ public class Game : MonoBehaviour
 
     private void AutoReveal()
     {
-        if (MouseOutField()) return;
+        if (MouseOutField(width, height)) return;
         Vector3Int cellPosition = MousePositionCurrent();
 
         if (cellPosition.x < 0 || cellPosition.x >= width || cellPosition.y < 0 || cellPosition.y >= height) {
@@ -607,37 +605,149 @@ public class Game : MonoBehaviour
 
     private void Flood(int cellX, int cellY)
     {
-        state[cellX, cellY].revealed = true;
-        field.DrawOneCell(state[cellX, cellY]);
+        bool endFlood = false;
+        Queue<int> emptyX = new (0);
+        Queue<int> emptyY = new (0);
 
-        for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        while (!endFlood)
         {
-            for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+            state[cellX, cellY].revealed = true;
+            field.DrawOneCell(state[cellX, cellY]);
+
+            for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
             {
-                if (adjacentX == 0 && adjacentY == 0) {
-                    continue;
-                }
-
-                int x = cellX + adjacentX;
-                int y = cellY + adjacentY;
-
-                if (x < 0 || x >= width || y < 0 || y >= height) {
-                    continue;
-                }
-                if (state[x, y].type == Cell.Type.Mine || state[x,y].revealed) {
-                    continue;
-                }
-                if (state[x, y].type == Cell.Type.Number)
+                for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
                 {
-                    state[x, y].revealed = true;
-                    field.DrawOneCell(state[x, y]);
+                    if (adjacentX == 0 && adjacentY == 0)
+                    {
+                        continue;
+                    }
+                    int x = cellX + adjacentX;
+                    int y = cellY + adjacentY;
+                    if (x < 0 || x >= width || y < 0 || y >= height)
+                    {
+                        continue;
+                    }
+                    if (state[x, y].type == Cell.Type.Mine || state[x, y].revealed)
+                    {
+                        continue;
+                    }
+                    if (state[x, y].type == Cell.Type.Number)
+                    {
+                        state[x, y].revealed = true;
+                        field.DrawOneCell(state[x, y]);
+                    }
+                    if (state[x, y].type == Cell.Type.Empty)
+                    {
+                        state[x, y].revealed = true;
+                        emptyX.Enqueue(x);
+                        emptyY.Enqueue(y);
+                    }
                 }
-                if (state[x,y].type == Cell.Type.Empty) { 
-                    Flood(x, y); 
-                }
-
             }
+
+            if (emptyX.Count > 0) 
+            {
+                cellX = emptyX.Dequeue();
+                cellY = emptyY.Dequeue();
+            }
+            else endFlood = true;
         }
+
+
+        //bool endFlood = false;
+        //bool[] cellsAround = new bool[0];
+        //int[] emptyX = new int[0];
+        //int[] emptyY = new int[0];
+
+        //while (!endFlood)
+        //{
+        //    state[cellX, cellY].revealed = true;
+        //    field.DrawOneCell(state[cellX, cellY]);
+
+        //    for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        //    {
+        //        for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+        //        {
+        //            if (adjacentX == 0 && adjacentY == 0)
+        //            {
+        //                continue;
+        //            }
+        //            int x = cellX + adjacentX;
+        //            int y = cellY + adjacentY;
+        //            if (x < 0 || x >= width || y < 0 || y >= height)
+        //            {
+        //                continue;
+        //            }
+        //            if (state[x, y].type == Cell.Type.Mine || state[x, y].revealed)
+        //            {
+        //                continue;
+        //            }
+        //            if (state[x, y].type == Cell.Type.Number)
+        //            {
+        //                state[x, y].revealed = true;
+        //                field.DrawOneCell(state[x, y]);
+        //            }
+        //            if (state[x, y].type == Cell.Type.Empty)
+        //            {
+        //                state[x, y].revealed = true;
+        //                System.Array.Resize(ref cellsAround, cellsAround.Length + 1);
+        //                cellsAround[^1] = true;
+        //                System.Array.Resize(ref emptyX, emptyX.Length + 1);
+        //                emptyX[^1] = x;
+        //                System.Array.Resize(ref emptyY, emptyY.Length + 1);
+        //                emptyY[^1] = y;
+        //            }
+        //        }
+        //    }
+
+        //    if (!cellsAround[^1]) endFlood = true;
+
+        //    for (int i = 0; i < cellsAround.Length; i++)
+        //    {
+        //        if (cellsAround[i])
+        //        {
+        //            cellsAround[i] = false;
+        //            cellX = emptyX[i];
+        //            cellY = emptyY[i];
+        //            break;
+        //        }
+        //    }
+        //}
+
+
+
+
+
+
+        ////state[cellX, cellY].revealed = true;
+        ////field.DrawOneCell(state[cellX, cellY]);
+
+        ////for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        ////{
+        ////    for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+        ////    {
+        ////        if (adjacentX == 0 && adjacentY == 0) {
+        ////            continue;
+        ////        }
+        ////        int x = cellX + adjacentX;
+        ////        int y = cellY + adjacentY;
+        ////        if (x < 0 || x >= width || y < 0 || y >= height) {
+        ////            continue;
+        ////        }
+        ////        if (state[x, y].type == Cell.Type.Mine || state[x,y].revealed) {
+        ////            continue;
+        ////        }
+        ////        if (state[x, y].type == Cell.Type.Number)
+        ////        {
+        ////            state[x, y].revealed = true;
+        ////            field.DrawOneCell(state[x, y]);
+        ////        }
+        ////        if (state[x,y].type == Cell.Type.Empty) { 
+        ////            Flood(x, y); 
+        ////        }
+        ////    }
+        ////}
     }
 
     private void CheckWinCondition()
@@ -696,10 +806,12 @@ public class Game : MonoBehaviour
         return 0;
     }
 
-    private bool MouseOutField()
+    private bool MouseOutField(int width, int height)
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellBorder = border.BorderMap.WorldToCell(worldPosition);
+        if (width > maxWidthBorder) width = maxWidthBorder;
+        if (height > maxHeightBorder) height = maxHeightBorder;
         if (cellBorder.x < 0 || cellBorder.x >= width || cellBorder.y < 0 || cellBorder.y >= height) return true;
         else return false;
     }
@@ -711,37 +823,87 @@ public class Game : MonoBehaviour
         return cellPosition;
     }
     //Return field in the border
-    private void FieldInBorder()
+    private void FieldInBorder(int width, int height)
     {
-        if (field.transform.position.x > 0) 
+        
+        if (field.transform.position.x >= 0)
         {
             field.transform.position = new Vector3(0f, field.transform.position.y, 0f);
             border.FieldBorderMarkLeft(height, false);
         }
-        else
-            if (field.transform.position.x != 0) border.FieldBorderMarkLeft(height, true);
+        else border.FieldBorderMarkLeft(height, true);
 
-        if (field.transform.position.y > 0)
+        if (field.transform.position.y >= 0)
         {
             field.transform.position = new Vector3(field.transform.position.x, 0f, 0f);
             border.FieldBorderMarkDown(width, false);
         }
-        else 
-            if (field.transform.position.y != 0) border.FieldBorderMarkDown(width, true);
+        else border.FieldBorderMarkDown(width, true);
 
-        if (field.transform.position.x <= -width * (field.transform.localScale.x - 1)) 
+        if (field.transform.localScale.x == 1 && field.transform.localScale.y == 1)
         {
-            field.transform.position = new Vector3(-width * (field.transform.localScale.x - 1), field.transform.position.y, 0f);
-            border.FieldBorderMarkRight(width, height, false);
-        }
-        else border.FieldBorderMarkRight(width, height, true);
+            if (width > maxWidthBorder)
+                if (field.transform.position.x <= maxWidthBorder - width)
+                {
+                    field.transform.position = new Vector3(maxWidthBorder - width, field.transform.position.y, 0f);
+                    border.FieldBorderMarkRight(width, height, false);
+                }
+                else border.FieldBorderMarkRight(width, height, true);
+            else 
+            {
+                field.transform.position = new Vector3(transform.position.x, field.transform.position.x, 0f);
+                border.FieldBorderMarkRight(width, height, false);
+            }
 
-        if (field.transform.position.y <= -height * (field.transform.localScale.y - 1)) 
-        {
-            field.transform.position = new Vector3(field.transform.position.x, -height * (field.transform.localScale.y - 1), 0f);
-            border.FieldBorderMarkUp(width, height, false);
+            if (height > maxHeightBorder)
+                if (field.transform.position.y <= maxHeightBorder - height)
+                {
+                    field.transform.position = new Vector3(field.transform.position.x, maxHeightBorder - height, 0f);
+                    border.FieldBorderMarkUp(width, height, false);
+                }
+                else border.FieldBorderMarkUp(width, height, true);
+            else 
+            {
+                border.FieldBorderMarkUp(width, height, false);
+                field.transform.position = new Vector3(field.transform.position.x, transform.position.y, 0f); 
+            }
+
+            if (field.transform.position.x == 0) border.FieldBorderMarkLeft(height, false);
+            if (field.transform.position.y == 0) border.FieldBorderMarkDown(width, false);
         }
-        else border.FieldBorderMarkUp(width, height, true);
+        else
+        {
+            if (field.transform.position.x <= -width * (field.transform.localScale.x - 1))
+            {
+                field.transform.position = new Vector3(-width * (field.transform.localScale.x - 1), field.transform.position.y, 0f);
+                border.FieldBorderMarkRight(width, height, false);
+            }
+            else border.FieldBorderMarkRight(width, height, true);
+
+            if (field.transform.position.y <= -height * (field.transform.localScale.y - 1))
+            {
+                field.transform.position = new Vector3(field.transform.position.x, -height * (field.transform.localScale.y - 1), 0f);
+                border.FieldBorderMarkUp(width, height, false);
+            }
+            else border.FieldBorderMarkUp(width, height, true);
+
+            if (field.transform.position.x == 0) border.FieldBorderMarkLeft(height, false);
+            if (field.transform.position.y == 0) border.FieldBorderMarkDown(width, false);
+        }
     }
 
+    private void SetMainCamera(int width, int height)
+    {
+        if (width > maxWidthBorder) width = maxWidthBorder;
+        if (height > maxHeightBorder) height = maxHeightBorder;
+        Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -11f);
+    }
+
+    private void SetMaskField(int width, int height)
+    {
+        if (width > maxWidthBorder) width = maxWidthBorder;
+        if (height > maxHeightBorder) height = maxHeightBorder;
+        maskField.transform.position = new Vector3(width / 2f, height / 2f, 0f);
+        maskField.transform.localScale = new Vector3(width, height, 0f);
+    }
 }

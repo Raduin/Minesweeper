@@ -33,6 +33,9 @@ public class Hud : MonoBehaviour
     // display the total number of minutes on the MineClock and time on the TimeClock
     public void Clock(int width, int height, int mineCount, int seconds)
     {
+        if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
+        if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
+
         int abs = mineCount;
         abs = Math.DivRem(abs, 10, out int digit3);
         abs = Math.DivRem(abs, 10, out int digit2);
@@ -78,6 +81,9 @@ public class Hud : MonoBehaviour
 
     public void DrawButtonUp (int width, int height, ButtonImage image)
     {
+        if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
+        if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
+
         Matrix4x4 matrix;
 
         HudMap.SetTile(new Vector3Int((width / 2), height + 1, 0), ButtonTileType(image));
@@ -91,6 +97,9 @@ public class Hud : MonoBehaviour
 
     public void DrawButtonDown(int width, int height, ButtonImage image)
     {
+        if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
+        if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
+
         Matrix4x4 matrix;
 
         HudMap.SetTile(new Vector3Int((width / 2), -2, 0), ButtonTileType(image));

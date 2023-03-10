@@ -37,4 +37,17 @@ public class Mouse : MonoBehaviour
         if (cellPosition.y >0) hud.DrawButtonUp(game.width, game.height, ButtonImage.JoyPressed);
         else hud.DrawButtonDown(game.width, game.height, ButtonImage.MenuPressed);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            field.FieldMap.ClearAllTiles();
+            hud.HudMap.ClearAllTiles();
+            border.BorderMap.ClearAllTiles();
+            canvas.enabled = true;
+            game.enabled = false;
+            this.enabled = false;
+        }
+    }
 }
