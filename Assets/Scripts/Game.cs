@@ -15,6 +15,20 @@ public class Game : MonoBehaviour
     public float scrollSpeed = 0.2f;
     public float catchTime = 0.4f;     //duration of time for mouse doubleclick method LeftDoubleClickMouseDetection()
 
+    public bool beginnerOn;            //Flag if "Begginer" game type is active (for timescore) 
+    public bool intermediateOn;        //Flag if "Intermediate" game type is active (for timescore)
+    public bool expertOn;              //Flag if "Expert" game type is active (for timescore)
+    public GameObject winWindow;       //To enable/disable win window
+    public GameObject winWindowShadow; //To enable/disable win windowShadow
+
+    //Score
+    [HideInInspector] public string beginnerName;
+    [HideInInspector] public int beginnerTime;
+    [HideInInspector] public string intermediateName;
+    [HideInInspector] public int intermediateTime;
+    [HideInInspector] public string expertName;
+    [HideInInspector] public int expertTime;
+
     private int timer;
     private int mineCounter;
     private Field field;
@@ -39,6 +53,8 @@ public class Game : MonoBehaviour
     private Vector3 deltafieldMoving;  //Start delta coordinates for field moving speed
     private bool fieldMoving;          //Flag to start field moving
 
+
+
     private void OnValidate()
     {
         mineCount = Mathf.Clamp(mineCount, 0, width * height);
@@ -52,6 +68,7 @@ public class Game : MonoBehaviour
         backgroundField = GetComponentInChildren<BackgroundField>();
 
         maskField = Instantiate(maskField);
+        LoadScore();
     }
 
     //private void Start()
@@ -186,19 +203,16 @@ public class Game : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R)) {
-            NewGame();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            questionMark = !questionMark;
-            NewGame();
-        }
+        if (winWindow.activeInHierarchy) return;
+        if (Input.GetKeyDown(KeyCode.R)) NewGame();
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             width = 8;
             height = 8;
             mineCount = 10;
+            beginnerOn = true;
+            intermediateOn = false;
+            expertOn = false;
             NewGame();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
@@ -206,6 +220,9 @@ public class Game : MonoBehaviour
             width = 16;
             height = 16;
             mineCount = 40;
+            beginnerOn = false;
+            intermediateOn = true;
+            expertOn = false;
             NewGame();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
@@ -213,6 +230,9 @@ public class Game : MonoBehaviour
             width = 30;
             height = 16;
             mineCount = 99;
+            beginnerOn = false;
+            intermediateOn = false;
+            expertOn = true;
             NewGame();
         }
         //Field scaling
@@ -653,101 +673,6 @@ public class Game : MonoBehaviour
             }
             else endFlood = true;
         }
-
-
-        //bool endFlood = false;
-        //bool[] cellsAround = new bool[0];
-        //int[] emptyX = new int[0];
-        //int[] emptyY = new int[0];
-
-        //while (!endFlood)
-        //{
-        //    state[cellX, cellY].revealed = true;
-        //    field.DrawOneCell(state[cellX, cellY]);
-
-        //    for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
-        //    {
-        //        for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
-        //        {
-        //            if (adjacentX == 0 && adjacentY == 0)
-        //            {
-        //                continue;
-        //            }
-        //            int x = cellX + adjacentX;
-        //            int y = cellY + adjacentY;
-        //            if (x < 0 || x >= width || y < 0 || y >= height)
-        //            {
-        //                continue;
-        //            }
-        //            if (state[x, y].type == Cell.Type.Mine || state[x, y].revealed)
-        //            {
-        //                continue;
-        //            }
-        //            if (state[x, y].type == Cell.Type.Number)
-        //            {
-        //                state[x, y].revealed = true;
-        //                field.DrawOneCell(state[x, y]);
-        //            }
-        //            if (state[x, y].type == Cell.Type.Empty)
-        //            {
-        //                state[x, y].revealed = true;
-        //                System.Array.Resize(ref cellsAround, cellsAround.Length + 1);
-        //                cellsAround[^1] = true;
-        //                System.Array.Resize(ref emptyX, emptyX.Length + 1);
-        //                emptyX[^1] = x;
-        //                System.Array.Resize(ref emptyY, emptyY.Length + 1);
-        //                emptyY[^1] = y;
-        //            }
-        //        }
-        //    }
-
-        //    if (!cellsAround[^1]) endFlood = true;
-
-        //    for (int i = 0; i < cellsAround.Length; i++)
-        //    {
-        //        if (cellsAround[i])
-        //        {
-        //            cellsAround[i] = false;
-        //            cellX = emptyX[i];
-        //            cellY = emptyY[i];
-        //            break;
-        //        }
-        //    }
-        //}
-
-
-
-
-
-
-        ////state[cellX, cellY].revealed = true;
-        ////field.DrawOneCell(state[cellX, cellY]);
-
-        ////for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
-        ////{
-        ////    for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
-        ////    {
-        ////        if (adjacentX == 0 && adjacentY == 0) {
-        ////            continue;
-        ////        }
-        ////        int x = cellX + adjacentX;
-        ////        int y = cellY + adjacentY;
-        ////        if (x < 0 || x >= width || y < 0 || y >= height) {
-        ////            continue;
-        ////        }
-        ////        if (state[x, y].type == Cell.Type.Mine || state[x,y].revealed) {
-        ////            continue;
-        ////        }
-        ////        if (state[x, y].type == Cell.Type.Number)
-        ////        {
-        ////            state[x, y].revealed = true;
-        ////            field.DrawOneCell(state[x, y]);
-        ////        }
-        ////        if (state[x,y].type == Cell.Type.Empty) { 
-        ////            Flood(x, y); 
-        ////        }
-        ////    }
-        ////}
     }
 
     private void CheckWinCondition()
@@ -775,6 +700,24 @@ public class Game : MonoBehaviour
                     field.DrawOneCell(state[x, y]);
                 }
             }
+        }
+        if (beginnerOn && timer < beginnerTime) 
+        {
+            beginnerTime = timer;
+            winWindow.SetActive(true);
+            winWindowShadow.SetActive(true);
+        }
+        if (intermediateOn && timer < intermediateTime) 
+        {
+            intermediateTime = timer;
+            winWindow.SetActive(true);
+            winWindowShadow.SetActive(true);
+        }
+        if (expertOn && timer < expertTime) 
+        {
+            expertTime = timer;
+            winWindow.SetActive(true);
+            winWindowShadow.SetActive(true);
         }
     }
 
@@ -906,4 +849,54 @@ public class Game : MonoBehaviour
         maskField.transform.position = new Vector3(width / 2f, height / 2f, 0f);
         maskField.transform.localScale = new Vector3(width, height, 0f);
     }
+
+    public void LoadScore()
+    {
+        if (PlayerPrefs.HasKey("BeginnerName")) 
+        { 
+            beginnerName = PlayerPrefs.GetString("BeginnerName");
+            beginnerTime = PlayerPrefs.GetInt("BeginnerTime");
+        }
+        else
+        {
+            beginnerName = "Anonymouse";
+            beginnerTime = 999;
+        }
+        if (PlayerPrefs.HasKey("IntermediateName")) 
+        {
+            intermediateName = PlayerPrefs.GetString("IntermediateName");
+            intermediateTime = PlayerPrefs.GetInt("IntermediateTime");
+        }
+        else
+        {
+            intermediateName = "Anonymouse";
+            intermediateTime = 999;
+        }
+        if (PlayerPrefs.HasKey("ExpertName")) 
+        {
+            expertName = PlayerPrefs.GetString("ExpertName");
+            expertTime = PlayerPrefs.GetInt("ExpertTime");
+        }
+        else
+        {
+            expertName = "Anonymouse";
+            expertTime = 999;
+        }
+    }
+
+    //private void SaveScore()
+    //{
+    //    PlayerPrefs.SetString("BeginnerName", beginnerName);
+    //    PlayerPrefs.SetInt("BeginnerTime", beginnerTime);
+    //    PlayerPrefs.SetString("IntermediateName", intermediateName);
+    //    PlayerPrefs.SetInt("IntermediateTime", intermediateTime);
+    //    PlayerPrefs.SetString("ExpertName", expertName);
+    //    PlayerPrefs.SetInt("ExpertTime", expertTime);
+    //}
+
+    //public void ClearScore()
+    //{
+    //    PlayerPrefs.DeleteAll();
+    //    LoadScore();
+    //}
 }

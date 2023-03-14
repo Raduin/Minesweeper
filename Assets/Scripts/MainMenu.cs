@@ -3,7 +3,7 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Game game;
-    [SerializeField] private Canvas canvas;
+    [SerializeField] private Canvas canvasMenu;
     [SerializeField] private Mouse mouse;
 
     public void BeginnerPressed()
@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
         game.height = 8;
         game.mineCount = 10;
         Flags();
+        game.beginnerOn = true;
         game.NewGame();
     }
 
@@ -21,6 +22,7 @@ public class MainMenu : MonoBehaviour
         game.height = 16;
         game.mineCount = 40;
         Flags();
+        game.intermediateOn = true;
         game.NewGame();
     }
 
@@ -30,6 +32,7 @@ public class MainMenu : MonoBehaviour
         game.height = 16;
         game.mineCount = 99;
         Flags();
+        game.expertOn = true;
         game.NewGame();
     }
 
@@ -42,6 +45,6 @@ public class MainMenu : MonoBehaviour
     {
         game.enabled = true;
         mouse.enabled = true;
-        canvas.enabled = false;
+        canvasMenu.enabled = false;
     }
 }

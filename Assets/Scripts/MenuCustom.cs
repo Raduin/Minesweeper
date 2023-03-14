@@ -9,6 +9,7 @@ public class MenuCustom : MonoBehaviour
     public TMP_InputField widthField;
     public TMP_InputField heightField;
     public TMP_InputField minesField;
+    [SerializeField] private GameObject customMenu;
 
     // Min size of the field is 8x8. Max size of the field is 99x99.
     // Min mines count is 1. Max mines count is width*height. Mines default is 10.
@@ -52,7 +53,7 @@ public class MenuCustom : MonoBehaviour
     public void EndMinesField()
     {
         if (minesField.text == "" || minesField.text == null) minesField.text = "10";
-        if (System.Int32.Parse(minesField.text) > (game.width * game.height)) minesField.text = "" + game.width * game.height;
+        //if (System.Int32.Parse(minesField.text) > (999)) minesField.text = "" + 999;
         if (System.Int32.Parse(minesField.text) < 1) minesField.text = "1";
         game.mineCount = System.Int32.Parse(minesField.text);
     }
@@ -65,5 +66,8 @@ public class MenuCustom : MonoBehaviour
         mainMenu.Flags();
         game.NewGame();
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) customMenu.SetActive(false);
+    }
 }

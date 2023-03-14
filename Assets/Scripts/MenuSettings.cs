@@ -7,6 +7,7 @@ public class MenuSettings : MonoBehaviour
     private int currentWindowWidth;
     private int currentWindowHeight;
     private Vector2Int currentWindowPosition;
+    [SerializeField] private GameObject settingsMenu;
 
     public void QuestionMark()
     {
@@ -28,5 +29,10 @@ public class MenuSettings : MonoBehaviour
             Screen.SetResolution(currentWindowWidth, currentWindowHeight, false);
             Screen.MoveMainWindowTo(Screen.mainWindowDisplayInfo, currentWindowPosition);
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) settingsMenu.SetActive(false);
     }
 }
