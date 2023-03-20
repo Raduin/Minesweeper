@@ -455,7 +455,8 @@ public class Game : MonoBehaviour
         }
         else
         {
-            mineCounter = mineCounter > 0 ? (mineCounter -= 1) : 0;
+            //mineCounter = mineCounter > 0 ? (mineCounter -= 1) : 0; // need to fix
+            mineCounter = mineCounter -= 1;
             hud.Clock(width, height, mineCounter, timer);
         }
          if (questionMark)
@@ -794,7 +795,7 @@ public class Game : MonoBehaviour
                 else border.FieldBorderMarkRight(width, height, true);
             else 
             {
-                field.transform.position = new Vector3(transform.position.x, field.transform.position.x, 0f);
+                field.transform.position = new Vector3(transform.position.x, field.transform.position.y, 0f);
                 border.FieldBorderMarkRight(width, height, false);
             }
 
@@ -883,20 +884,4 @@ public class Game : MonoBehaviour
             expertTime = 999;
         }
     }
-
-    //private void SaveScore()
-    //{
-    //    PlayerPrefs.SetString("BeginnerName", beginnerName);
-    //    PlayerPrefs.SetInt("BeginnerTime", beginnerTime);
-    //    PlayerPrefs.SetString("IntermediateName", intermediateName);
-    //    PlayerPrefs.SetInt("IntermediateTime", intermediateTime);
-    //    PlayerPrefs.SetString("ExpertName", expertName);
-    //    PlayerPrefs.SetInt("ExpertTime", expertTime);
-    //}
-
-    //public void ClearScore()
-    //{
-    //    PlayerPrefs.DeleteAll();
-    //    LoadScore();
-    //}
 }

@@ -1992,16 +1992,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fee7271571647b4b8638f75889e7efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileClockNumber0: {fileID: 11400000, guid: 377dbdaaf99313847a8f68958e68d8bc, type: 2}
-  tileClockNumber1: {fileID: 11400000, guid: 39fdfe70309d2a2438cbbd115757cfc2, type: 2}
-  tileClockNumber2: {fileID: 11400000, guid: 2eec233bd8f439f46bb04f576d42364f, type: 2}
-  tileClockNumber3: {fileID: 11400000, guid: d3e755c26a11d3b4eba11b666d58b078, type: 2}
-  tileClockNumber4: {fileID: 11400000, guid: 773d9e7b9cb91844196b8138f8561ee0, type: 2}
-  tileClockNumber5: {fileID: 11400000, guid: 2c13c5724ca52bf49afc0ab8a7dcd279, type: 2}
-  tileClockNumber6: {fileID: 11400000, guid: c185deeded621204689d7983c1e7f580, type: 2}
-  tileClockNumber7: {fileID: 11400000, guid: 02cb59122d843db4ba9362e6e17482d6, type: 2}
-  tileClockNumber8: {fileID: 11400000, guid: 3877b2c3de9dd804e9baa49b0b98db2c, type: 2}
-  tileClockNumber9: {fileID: 11400000, guid: 80d880fd7eb0c7e43bf9118a132cc8c8, type: 2}
+  tileClockNumber0: {fileID: 11400000, guid: 520b93b7ff04e7a479aa0e65783509a6, type: 2}
+  tileClockNumber1: {fileID: 11400000, guid: 08641df16b5fb78468a7e250869fe7ce, type: 2}
+  tileClockNumber2: {fileID: 11400000, guid: 848bb83d7ca871347bd84d0648246b22, type: 2}
+  tileClockNumber3: {fileID: 11400000, guid: bbb0504dfb49e544a8db947c65551bb9, type: 2}
+  tileClockNumber4: {fileID: 11400000, guid: f1a5ef1ff4d8da645a7220131a9aa7ad, type: 2}
+  tileClockNumber5: {fileID: 11400000, guid: 9b28ac21af8afa74596a8a9fcb2913e5, type: 2}
+  tileClockNumber6: {fileID: 11400000, guid: 6accb88e463af764da41fcdbe09ee731, type: 2}
+  tileClockNumber7: {fileID: 11400000, guid: b732fdbaa8bfca84eb1cb3811d62e3e7, type: 2}
+  tileClockNumber8: {fileID: 11400000, guid: e279477f527ebca4c97a556d5a030eed, type: 2}
+  tileClockNumber9: {fileID: 11400000, guid: 3bb6059e275687a40b14e2a5db866b26, type: 2}
+  tileClockMinus: {fileID: 11400000, guid: ac07875448486ac4e8a2c61568a812f8, type: 2}
   tileSmileJoy: {fileID: 11400000, guid: f3d4ef18a52fe594fbdd8525f63abd2f, type: 2}
   tileSmileWonder: {fileID: 11400000, guid: 496eea0adbf624e449700e9a2bf36a0f, type: 2}
   tileSmileSad: {fileID: 11400000, guid: 06df479b7c2bc374d87206b099817ce3, type: 2}

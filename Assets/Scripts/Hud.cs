@@ -16,6 +16,7 @@ public class Hud : MonoBehaviour
     public Tile tileClockNumber7;
     public Tile tileClockNumber8;
     public Tile tileClockNumber9;
+    public Tile tileClockMinus;
 
     public Tile tileSmileJoy;
     public Tile tileSmileWonder;
@@ -36,7 +37,7 @@ public class Hud : MonoBehaviour
         if (width > Game.maxWidthBorder) width = Game.maxWidthBorder;
         if (height > Game.maxHeightBorder) height = Game.maxHeightBorder;
 
-        int abs = mineCount;
+        int abs = Math.Abs(mineCount);
         abs = Math.DivRem(abs, 10, out int digit3);
         abs = Math.DivRem(abs, 10, out int digit2);
         abs = Math.DivRem(abs, 10, out int digit1);
@@ -45,7 +46,9 @@ public class Hud : MonoBehaviour
         abs = Math.DivRem(abs, 10, out int digit5);
         abs = Math.DivRem(abs, 10, out int digit4);
 
-        HudMap.SetTile(new Vector3Int(0, height + 1, 0), TileNumber(digit1));
+        if (mineCount >= 0) HudMap.SetTile(new Vector3Int(0, height + 1, 0), TileNumber(digit1));
+        else HudMap.SetTile(new Vector3Int(0, height + 1, 0), tileClockMinus);
+
         HudMap.SetTile(new Vector3Int(1, height + 1, 0), TileNumber(digit2));
         HudMap.SetTile(new Vector3Int(2, height + 1, 0), TileNumber(digit3));
         HudMap.SetTile(new Vector3Int(width - 1, height + 1, 0), TileNumber(digit6));

@@ -19,6 +19,11 @@ public class MenuCustom : MonoBehaviour
         if (widthField.text == "" || widthField.text == null) widthField.text = "8";
         if (heightField.text == "" || heightField.text == null) heightField.text = "8";
         if (minesField.text == "" || minesField.text == null) minesField.text = "10";
+
+        game.width = System.Int32.Parse(widthField.text);
+        game.height = System.Int32.Parse(heightField.text);
+        game.mineCount = System.Int32.Parse(minesField.text);
+
     }
 
     public void ValueWidthCheck()
@@ -54,6 +59,7 @@ public class MenuCustom : MonoBehaviour
     {
         if (minesField.text == "" || minesField.text == null) minesField.text = "10";
         //if (System.Int32.Parse(minesField.text) > (999)) minesField.text = "" + 999;
+        if (System.Int32.Parse(minesField.text) > game.width * game.height) minesField.text = "" + game.width * game.height;
         if (System.Int32.Parse(minesField.text) < 1) minesField.text = "1";
         game.mineCount = System.Int32.Parse(minesField.text);
     }
@@ -62,6 +68,7 @@ public class MenuCustom : MonoBehaviour
     {
         game.width = System.Int32.Parse(widthField.text);
         game.height = System.Int32.Parse(heightField.text);
+        if (System.Int32.Parse(minesField.text) > game.width * game.height) minesField.text = "" + game.width * game.height;
         game.mineCount = System.Int32.Parse(minesField.text);
         mainMenu.Flags();
         game.NewGame();

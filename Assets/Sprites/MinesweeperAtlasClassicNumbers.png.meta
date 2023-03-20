@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0967bb84975a16640b16034af45d691f
+guid: 693f45f608cbe6145bd117123946c6da
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -165,7 +165,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_0
+      name: MinesweeperAtlasClassicNumbers_0
       rect:
         serializedVersion: 2
         x: 0
@@ -179,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dcdbab044469884d9ea48fd566c67f3
-      internalID: -1021132132
+      spriteID: 9346e9d825364c947a6cc1968645138f
+      internalID: 1825990548
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_1
+      name: MinesweeperAtlasClassicNumbers_1
       rect:
         serializedVersion: 2
         x: 24
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab61fee159872664a80545240f07a8e7
-      internalID: -392554867
+      spriteID: f0741555963cb8547955fa9dd7a3105a
+      internalID: 2040364492
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_2
+      name: MinesweeperAtlasClassicNumbers_2
       rect:
         serializedVersion: 2
         x: 48
@@ -221,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3801c7671e4d1e448a659b8db5192dc9
-      internalID: 2015948853
+      spriteID: 2c680b7c06da0474290a157386e40561
+      internalID: 241157128
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_3
+      name: MinesweeperAtlasClassicNumbers_3
       rect:
         serializedVersion: 2
         x: 72
@@ -242,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbf8fb89cd60e3e44b673ad4cafe3d45
-      internalID: -2116476153
+      spriteID: 2773253c2ea2dad4db6fac37ae65cc75
+      internalID: -785565861
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_4
+      name: MinesweeperAtlasClassicNumbers_4
       rect:
         serializedVersion: 2
         x: 96
@@ -263,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2198ed775ce0e14393cc0113031d0d1
-      internalID: 892011397
+      spriteID: 4f132f40e433ecd46899ef147a1d90d0
+      internalID: -1986204685
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_5
+      name: MinesweeperAtlasClassicNumbers_5
       rect:
         serializedVersion: 2
         x: 120
@@ -284,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51e063e65dd5e62408d6d30b85b63f73
-      internalID: -450699204
+      spriteID: 3f43d9f4c57be244b91597653103ea47
+      internalID: -1558234601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_6
+      name: MinesweeperAtlasClassicNumbers_6
       rect:
         serializedVersion: 2
         x: 144
@@ -305,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d461f1689f4c994bb667e4c712bca5d
-      internalID: -1004067675
+      spriteID: eb3338f3f42fbac4e922630a1f7a21bb
+      internalID: 1944098622
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_7
+      name: MinesweeperAtlasClassicNumbers_7
       rect:
         serializedVersion: 2
         x: 168
@@ -326,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 543d074437cb80346afdbdb03a089635
-      internalID: -949519137
+      spriteID: 9162f5993d26ed8408fe3eea277aa0cc
+      internalID: -14721164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_8
+      name: MinesweeperAtlasClassicNumbers_8
       rect:
         serializedVersion: 2
         x: 192
@@ -347,14 +347,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47d633263d81b8046bdbb28820d6aab5
-      internalID: 1139073371
+      spriteID: 5ee4deb4bbe99a24da29d4e6586cdf44
+      internalID: 1963025782
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MinesweeperAtlasClassicClockNumbers_9
+      name: MinesweeperAtlasClassicNumbers_9
       rect:
         serializedVersion: 2
         x: 216
@@ -368,8 +368,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b5075db97ec823499bb5403e4ac180b
-      internalID: -1083282369
+      spriteID: 40f7db3dff1eb784e99158bb8396e4c2
+      internalID: -313719387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MinesweeperAtlasClassicNumbers_10
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9baca5b9c96ce05428301302de740b84
+      internalID: -25552490
       vertices: []
       indices: 
       edges: []
@@ -385,16 +406,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      MinesweeperAtlasClassicClockNumbers_7: -949519137
-      MinesweeperAtlasClassicClockNumbers_1: -392554867
-      MinesweeperAtlasClassicClockNumbers_8: 1139073371
-      MinesweeperAtlasClassicClockNumbers_0: -1021132132
-      MinesweeperAtlasClassicClockNumbers_4: 892011397
-      MinesweeperAtlasClassicClockNumbers_5: -450699204
-      MinesweeperAtlasClassicClockNumbers_9: -1083282369
-      MinesweeperAtlasClassicClockNumbers_6: -1004067675
-      MinesweeperAtlasClassicClockNumbers_3: -2116476153
-      MinesweeperAtlasClassicClockNumbers_2: 2015948853
+      MinesweeperAtlasClassicNumbers_5: -1558234601
+      MinesweeperAtlasClassicNumbers_3: -785565861
+      MinesweeperAtlasClassicNumbers_2: 241157128
+      MinesweeperAtlasClassicNumbers_10: -25552490
+      MinesweeperAtlasClassicNumbers_7: -14721164
+      MinesweeperAtlasClassicNumbers_1: 2040364492
+      MinesweeperAtlasClassicNumbers_8: 1963025782
+      MinesweeperAtlasClassicNumbers_0: 1825990548
+      MinesweeperAtlasClassicNumbers_9: -313719387
+      MinesweeperAtlasClassicNumbers_4: -1986204685
+      MinesweeperAtlasClassicNumbers_6: 1944098622
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
