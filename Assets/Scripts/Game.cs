@@ -13,13 +13,14 @@ public class Game : MonoBehaviour
     public int mineCount = 32;
     public bool questionMark;
     public float scrollSpeed = 0.2f;
-    public float catchTime = 0.4f;     //duration of time for mouse doubleclick method LeftDoubleClickMouseDetection()
+    public float catchTime = 0.4f;            //duration of time for mouse doubleclick method LeftDoubleClickMouseDetection()
+    public float timeForFieldMoving = 0.2f;   //time of mouse immobility whereupon the field will not move automatically with damping
 
-    public bool beginnerOn;            //Flag if "Begginer" game type is active (for timescore) 
-    public bool intermediateOn;        //Flag if "Intermediate" game type is active (for timescore)
-    public bool expertOn;              //Flag if "Expert" game type is active (for timescore)
-    public GameObject winWindow;       //To enable/disable win window
-    public GameObject winWindowShadow; //To enable/disable win windowShadow
+    public bool beginnerOn;                   //Flag if "Begginer" game type is active (for timescore) 
+    public bool intermediateOn;               //Flag if "Intermediate" game type is active (for timescore)
+    public bool expertOn;                     //Flag if "Expert" game type is active (for timescore)
+    public GameObject winWindow;              //To enable/disable win window
+    public GameObject winWindowShadow;        //To enable/disable win windowShadow
 
     //Score
     [HideInInspector] public string beginnerName;
@@ -39,19 +40,20 @@ public class Game : MonoBehaviour
     private bool gameover;
     [SerializeField] private GameObject maskField;
 
-    private float lastClickTime;       //first click time for mouse doubleclick method LeftDoubleClickMouseDetection()
-    private int secondCounter;         //The counter of seconds from real time for method IncreaseTimer()
-    private bool firstClick;           //Flag for starting timer;
-    private bool reset60;              //Flag for resetting the counter of second for method IncreaseTimer()
-    private Vector3Int firstCellLmb;   //Data of the cell that was clicked first before releasing with Left mouse button
-    private Vector3Int firstCellLRmb;  //Data of the cell that was clicked first before releasing with Left+Right mouse button
-    private Vector3 firstCellMmb;      //Data of the cell that was clicked first before releasing with Middle mouse button
-    private bool currentCellLmb;       //Flag for matching with first clicked cell before releasing with Left mouse button
-    private bool currentCellLRmb;      //Flag for matching with first clicked cell before releasing with Left+Right mouse button
-    private bool currentCellMmb;       //Flag for matching with first clicked cell before releasing with Middle mouse button
-    private bool mouseButtonsPressed;  //Flag for pressing both mouse buttons together
-    private Vector3 deltafieldMoving;  //Start delta coordinates for field moving speed
-    private bool fieldMoving;          //Flag to start field moving
+    private float lastClickTime;              //first click time for mouse doubleclick method LeftDoubleClickMouseDetection()
+    private int secondCounter;                //The counter of seconds from real time for method IncreaseTimer()
+    private bool firstClick;                  //Flag for starting timer;
+    private bool reset60;                     //Flag for resetting the counter of second for method IncreaseTimer()
+    private Vector3Int firstCellLmb;          //Data of the cell that was clicked first before releasing with Left mouse button
+    private Vector3Int firstCellLRmb;         //Data of the cell that was clicked first before releasing with Left+Right mouse button
+    private Vector3 firstCellMmb;             //Data of the cell that was clicked first before releasing with Middle mouse button
+    private bool currentCellLmb;              //Flag for matching with first clicked cell before releasing with Left mouse button
+    private bool currentCellLRmb;             //Flag for matching with first clicked cell before releasing with Left+Right mouse button
+    private bool currentCellMmb;              //Flag for matching with first clicked cell before releasing with Middle mouse button
+    private bool mouseButtonsPressed;         //Flag for pressing both mouse buttons together
+    private Vector3 deltafieldMoving;         //Start delta coordinates for field moving speed
+    private bool fieldMoving;                 //Flag to start field moving
+    private float timeForFieldMovingCounter;  //time of mouse immobility
 
 
 
@@ -268,6 +270,7 @@ public class Game : MonoBehaviour
         //Field moving
         if (Input.GetMouseButton(2))
         {
+            fieldMoving = false;
             Vector3 cellPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (cellPosition.x < 0 || cellPosition.x >= width || cellPosition.y < 0 || cellPosition.y >= height) return;
             if (!currentCellMmb)
@@ -282,13 +285,16 @@ public class Game : MonoBehaviour
                 deltafieldMoving = new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0f);
 
                 firstCellMmb = cellPosition;
+                timeForFieldMovingCounter = 0f;
             }
+            else timeForFieldMovingCounter += Time.deltaTime;
         }
 
         if (Input.GetMouseButtonUp(2)) 
         {
-            fieldMoving = true;
+            if (timeForFieldMovingCounter < timeForFieldMoving) fieldMoving = true;
             currentCellMmb = false;
+            timeForFieldMovingCounter = 0f;
         }
 
         if (!gameover)
@@ -471,7 +477,6 @@ public class Game : MonoBehaviour
         }
         else
         {
-            //mineCounter = mineCounter > 0 ? (mineCounter -= 1) : 0; // need to fix
             mineCounter = mineCounter -= 1;
             hud.Clock(width, height, mineCounter, timer);
         }
